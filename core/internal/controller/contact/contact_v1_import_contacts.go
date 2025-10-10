@@ -143,7 +143,7 @@ func parseCSVContent(ctx context.Context, content string) ([]*entity.Contact, er
 
 		contact_s := &entity.Contact{
 			Email:   email,
-			Active:  -1,
+			Active:  1,
 			Attribs: make(map[string]string),
 		}
 
@@ -212,9 +212,9 @@ func parseEmailContent(ctx context.Context, content string, importType int) []*e
 			continue
 		}
 
-		contact := &entity.Contact{
+		contactInfo := &entity.Contact{
 			Email:   email,
-			Active:  -1,
+			Active:  1,
 			Attribs: make(map[string]string),
 		}
 
@@ -223,12 +223,12 @@ func parseEmailContent(ctx context.Context, content string, importType int) []*e
 			if attribsStr != "" && attribsStr != "null" {
 				attribs, err := parseJSONAttributes(ctx, attribsStr)
 				if err == nil {
-					contact.Attribs = attribs
+					contactInfo.Attribs = attribs
 				}
 			}
 		}
 
-		contacts = append(contacts, contact)
+		contacts = append(contacts, contactInfo)
 	}
 
 	return contacts
@@ -294,9 +294,9 @@ func (c *ControllerV1) ImportContacts(ctx context.Context, req *v1.ImportContact
 				continue
 			}
 
-			if contactInfo.Active == -1 {
-				contactInfo.Active = req.DefaultActive
-			}
+			//if contactInfo.Active == -1 {
+			//	contactInfo.Active = req.DefaultActive
+			//}
 
 			contactInfo.Status = req.Status
 			groupContacts = append(groupContacts, &contactInfo)
