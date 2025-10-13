@@ -24,6 +24,9 @@
 				<n-input v-model:value="form.password" :placeholder="t('mailbox.form.passwordPlaceholder')">
 				</n-input>
 			</n-form-item>
+			<n-form-item label="Quota limit">
+				<n-switch v-model:value="form.quota_active" :checked-value="1" :unchecked-value="0" />
+			</n-form-item>
 			<n-form-item :label="t('mailbox.form.quota')" path="quota">
 				<n-input-group>
 					<n-input-number v-model:value="form.quota" class="flex-1" :min="1" :show-button="false">
@@ -64,6 +67,7 @@ const form = reactive({
 	quota: 5,
 	unit: 'GB',
 	isAdmin: 0,
+	quota_active: 1,
 	full_name: '',
 	local_part: '',
 	domain: null as string | null,
@@ -156,6 +160,7 @@ const getParams = () => {
 		quota: getQuotaByte(form.quota, form.unit),
 		isAdmin: form.isAdmin,
 		active: form.active,
+		quota_active: form.quota_active,
 	}
 }
 
@@ -172,6 +177,7 @@ const [Modal, modalApi] = useModal({
 				form.isAdmin = row.is_admin
 				form.active = row.active
 				form.password = row.password
+				form.quota_active = row.quota_active
 
 				const quota = getByteUnit(row.quota)
 				const [quotaNum, quotaUnit] = quota.split(' ')
@@ -187,6 +193,7 @@ const [Modal, modalApi] = useModal({
 			form.unit = 'GB'
 			form.isAdmin = 0
 			form.active = 1
+			form.quota_active = 1
 		}
 	},
 	onConfirm: async () => {

@@ -22,6 +22,9 @@
 					:placeholder="$t('mailbox.form.passwordPlaceholder')">
 				</n-input>
 			</n-form-item>
+			<n-form-item label="Quota limit">
+				<n-switch v-model:value="form.quota_active" :checked-value="1" :unchecked-value="0" />
+			</n-form-item>
 			<n-form-item :label="$t('mailbox.form.quota')" path="quota">
 				<n-input-group>
 					<n-input-number v-model:value="form.quota" class="flex-1" :min="1" :show-button="false">
@@ -55,6 +58,7 @@ const form = reactive({
 	quota: 5,
 	unit: 'GB',
 	password: '',
+	quota_active: 1,
 })
 
 const rules: FormRules = {
@@ -107,6 +111,7 @@ const getParams = () => {
 		quota: getQuotaByte(form.quota, form.unit),
 		prefix: form.prefix,
 		count: form.count,
+		quota_active: form.quota_active,
 	}
 }
 
@@ -137,6 +142,7 @@ const resetForm = () => {
 	form.quota = 5
 	form.unit = 'GB'
 	form.password = ''
+	form.quota_active = 1
 }
 
 defineExpose({

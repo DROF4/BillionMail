@@ -61,8 +61,9 @@ const handleCreate = () => {
 
 watch(
 	() => groupId,
-	val => {
-		tag.value = tagList.value.filter(item => item.group_id === val).map(item => item.id)
+	() => {
+		tag.value = []
+		// tag.value = tagList.value.filter(item => item.group_id === val).map(item => item.id)
 	}
 )
 

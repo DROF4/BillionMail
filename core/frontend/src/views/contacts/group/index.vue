@@ -87,7 +87,7 @@ const columns = ref<DataTableColumns<Group>>([
 		minWidth: 100,
 		render: row => (
 			<NTag size="small" type="primary" bordered={false}>
-				{row.total_count || 0}
+				{row.total_count - row.unsubscribe_count}
 			</NTag>
 		),
 	},

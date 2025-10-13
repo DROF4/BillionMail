@@ -152,20 +152,25 @@ const columns = ref<DataTableColumns<MailBox>>([
 			)
 		},
 	},
-	// {
-	// 	key: 'quota',
-	// 	title: t('mailbox.columns.quota'),
-	// 	width: '18%',
-	// 	minWidth: 160,
-	// 	render: row => `${getByteUnit(row.used_quota)} / ${getByteUnit(row.quota)}`,
-	// },
 	{
 		key: 'quota',
 		title: t('mailbox.columns.quota'),
 		width: '18%',
 		minWidth: 160,
-		render: row => `${getByteUnit(row.quota)}`,
+		render: row => {
+			if (row.quota_active === 1) {
+				return `${getByteUnit(row.used_quota)} / ${getByteUnit(row.quota)}`
+			}
+			return <i class="i-common:quota w-20px h-20px"></i>
+		},
 	},
+	// {
+	// 	key: 'quota',
+	// 	title: t('mailbox.columns.quota'),
+	// 	width: '18%',
+	// 	minWidth: 160,
+	// 	render: row => `${getByteUnit(row.quota)}`,
+	// },
 	{
 		key: 'is_admin',
 		title: t('mailbox.columns.type'),

@@ -98,11 +98,11 @@ const columns = ref<DataTableColumns<MailDomain>>([
 		key: 'mailboxes',
 		title: t('domain.columns.mailboxes'),
 	},
-	// {
-	// 	key: 'current_quota',
-	// 	title: '当前使用量',
-	// 	render: row => getByteUnit(row.current_quota),
-	// },
+	{
+		key: 'current_quota',
+		title: 'Current usage',
+		render: row => getByteUnit(row.current_usage),
+	},
 	{
 		key: 'mailbox_quota',
 		title: t('domain.columns.defaultMailboxSize'),
