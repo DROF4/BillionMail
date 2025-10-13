@@ -49,6 +49,7 @@ func (c *ControllerV1) ListRelayConfigs(ctx context.Context, req *v1.ListRelayCo
 	}
 
 	for _, config := range configs {
+		password,_ := relay_service.DecryptPassword(ctx,config.AuthPassword)
 
 		relayWithSPF := &v1.BmRelayWithSPF{
 			BmRelay: &v1.BmRelay{
@@ -58,7 +59,7 @@ func (c *ControllerV1) ListRelayConfigs(ctx context.Context, req *v1.ListRelayCo
 				RelayHost:     config.RelayHost,
 				RelayPort:     config.RelayPort,
 				AuthUser:      config.AuthUser,
-				AuthPassword:  config.AuthPassword,
+				AuthPassword:  password,
 				Ip:            config.Ip,
 				Host:          config.Host,
 				Active:        config.Active,

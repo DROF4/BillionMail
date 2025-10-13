@@ -217,7 +217,6 @@ func readMaildirsize(userDir string) (int64, error) {
 			continue
 		}
 
-		//  <size> <mtime> 或 <size> <mtime> <flags>
 		sizeStr := parts[0]
 
 		sizeStr = strings.TrimSuffix(sizeStr, "S")

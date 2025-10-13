@@ -67,6 +67,12 @@ func init() {
 				return
 			}
 		}
+
+		if err := cleanupAndIndexRelayDomainMapping(ctx); err != nil {
+			g.Log().Error(ctx, "Failed to cleanup duplicates or create unique index:", err)
+			return
+		}
+
 		// There is a rename table that has been synchronized. Skip.
 		existsOld := checkTableExists(ctx, "bm_relay_old")
 		if existsOld {
@@ -87,6 +93,48 @@ func init() {
 		g.Log().Info(ctx, "Relay configuration migration completed successfully.")
 
 	})
+}
+
+// cleanupAndIndexRelayDomainMapping
+func cleanupAndIndexRelayDomainMapping(ctx context.Context) error {
+	if !checkTableExists(ctx, "bm_relay_domain_mapping") {
+		return gerror.New("Table bm_relay_domain_mapping does not exist")
+	}
+
+	var exists int
+	err := g.DB().Model("pg_indexes").Fields("1").
+		Where("indexname", "uk_relay_domain").
+		Scan(&exists)
+	if err != nil {
+		return err
+	}
+	if exists == 1 {
+		g.Log().Info(ctx, "Unique index uk_relay_domain already exists, skip cleanup.")
+		return nil
+	}
+
+	_, err = g.DB().Exec(ctx, `
+		DELETE FROM bm_relay_domain_mapping 
+		WHERE id NOT IN (
+			SELECT MIN(id)
+			FROM bm_relay_domain_mapping
+			GROUP BY relay_id, sender_domain
+		)
+	`)
+	if err != nil {
+		return gerror.Wrap(err, "Failed to remove duplicates from bm_relay_domain_mapping")
+	}
+
+	_, err = g.DB().Exec(ctx, `
+		CREATE UNIQUE INDEX uk_relay_domain 
+		ON bm_relay_domain_mapping(relay_id, sender_domain)
+	`)
+	if err != nil {
+		return gerror.Wrap(err, "Failed to create unique index uk_relay_domain")
+	}
+
+	g.Log().Info(ctx, "Cleanup duplicates and created unique index on bm_relay_domain_mapping")
+	return nil
 }
 
 func migrateRelayData(ctx context.Context) error {
