@@ -2774,3 +2774,7 @@ func ValidateARecord(record v1.DNSRecord) bool {
 
 	return false
 }
+
+func ChownDovecot(path string) error {
+	return os.Chown(path, 150, 8)
+}

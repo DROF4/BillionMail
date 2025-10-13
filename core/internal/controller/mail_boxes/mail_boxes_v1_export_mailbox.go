@@ -47,13 +47,14 @@ func (c *ControllerV1) ExportMailbox(ctx context.Context, req *v1.ExportMailboxR
 		var b strings.Builder
 		w := csv.NewWriter(&b)
 
-		_ = w.Write([]string{"username", "full_name", "is_admin", "quota", "local_part", "domain", "active", "password", "password_encode"})
+		_ = w.Write([]string{"username", "full_name", "is_admin", "quota", "quota_active", "local_part", "domain", "active", "password", "password_encode"})
 		for _, m := range mailboxes {
 			_ = w.Write([]string{
 				m.Username,
 				m.FullName,
 				fmt.Sprintf("%d", m.IsAdmin),
 				fmt.Sprintf("%d", m.Quota),
+				fmt.Sprintf("%d", m.QuotaActive),
 				m.LocalPart,
 				m.Domain,
 				fmt.Sprintf("%d", m.Active),

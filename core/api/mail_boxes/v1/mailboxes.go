@@ -19,6 +19,8 @@ type Mailbox struct {
 	CreateTime     int64  `json:"create_time"     dc:"Creation time"`
 	UpdateTime     int64  `json:"update_time"     dc:"Update time"`
 	Active         int    `json:"active"          dc:"Status: 1-enabled, 0-disabled"`
+	UsedQuota      int64  `json:"used_quota"           dc:"Used Mailbox quota"`
+	QuotaActive    int    `json:"quota_active"    dc:"Quota switch 1: On 0: Off"`
 }
 
 type AddMailboxReq struct {
@@ -30,7 +32,8 @@ type AddMailboxReq struct {
 	Password      string `json:"password" v:"required|min-length:8" dc:"Password"`
 	Active        int    `json:"active" v:"required" dc:"Status" d:"1"`
 	IsAdmin       int    `json:"isAdmin" v:"required" dc:"IsAdmin" d:"0"`
-	Quota         int    `json:"quota" v:"required|min:1" dc:"Quota" d:"5242880"`
+	Quota         int    `json:"quota"  dc:"Quota" d:"5242880"`
+	QuotaActive   int    `json:"quota_active" v:"in:0,1" dc:"Quota switch 1: On 0: Off" d:"1"`
 }
 
 type AddMailboxRes struct {
@@ -41,10 +44,10 @@ type BatchAddMailboxReq struct {
 	g.Meta        `path:"/mailbox/batch_create" tags:"MailBox" method:"post" summary:"Batch create mailbox" in:"body"`
 	Authorization string `json:"authorization" dc:"Authorization" in:"header"`
 	Domain        string `json:"domain" v:"required|domain" dc:"Domain"`
-
-	Quota  int    `json:"quota" v:"required|min:1" dc:"Quota" d:"5242880"`
+	Quota  int    `json:"quota"   dc:"Quota" d:"5242880"`
 	Count  int    `json:"count" v:"required|min:2" dc:"Count" d:"10"`
 	Prefix string `json:"prefix" v:"regex:[\\w-]{0,}" dc:"Email name prefix, optional" d:"user"`
+	QuotaActive   int    `json:"quota_active" v:"in:0,1" dc:"Quota switch 1: On 0: Off" d:"1"`
 }
 
 type BatchAddMailboxRes struct {
@@ -60,7 +63,8 @@ type UpdateMailboxReq struct {
 	Password      string `json:"password" v:"required|min-length:8" dc:"Password"`
 	Active        int    `json:"active" v:"required" dc:"Status" d:"1"`
 	IsAdmin       int    `json:"isAdmin" v:"required" dc:"IsAdmin" d:"0"`
-	Quota         int    `json:"quota" v:"required|min:1" dc:"Quota" d:"5242880"`
+	Quota         int    `json:"quota"  dc:"Quota" d:"5242880"`
+	QuotaActive   int    `json:"quota_active" v:"in:0,1" dc:"Quota switch 1: On 0: Off" d:"1"`
 }
 
 type UpdateMailboxRes struct {

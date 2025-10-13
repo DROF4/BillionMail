@@ -22,6 +22,7 @@ func (c *ControllerV1) UpdateMailbox(ctx context.Context, req *v1.UpdateMailboxR
 		LocalPart: req.LocalPart,
 		Domain:    req.Domain,
 		Active:    req.Active,
+		QuotaActive: req.QuotaActive,
 	}
 	if mailbox.FullName == "" {
 		mailbox.FullName = req.LocalPart

@@ -35,22 +35,22 @@ type CertInfo struct {
 
 // Domain defines the domain entity
 type Domain struct {
-	Domain       string     `json:"domain"        dc:"Domain name"`
-	ARecord      string     `json:"a_record"      dc:"A record"`
-	Mailboxes    int        `json:"mailboxes"     dc:"Number of mailboxes created"`
-	MailboxQuota int64      `json:"mailbox_quota" dc:"Default mailbox space size"`
-	Quota        int64      `json:"quota"         dc:"Domain quota"`
-	RateLimit    int        `json:"rate_limit"    dc:"Rate limit for sending emails per second"`
-	CreateTime   int64      `json:"create_time"   dc:"Creation time"`
-	Active       int        `json:"active"        dc:"Status: 1-enabled, 0-disabled"`
-	DNSRecords   DNSRecords `json:"dns_records" dc:"DNS records"`
-	CertInfo     CertInfo   `json:"cert_info" dc:"Certificate information"`
-	Catchall     string     `json:"email"      dc:"Cache all DNS records, used for domain verification"`
-	Default      int        `json:"default"      dc:"Default sender domain, 1-yes, 0-no"`
-	Urls         []string   `json:"urls" dc:"Additional URLs associated with the domain"`
-	HasBrandInfo int        `json:"hasbrandinfo"        dc:"Brand information : 1-exist, 0-not exist"`
-	// 补充专属ip
+	Domain         string         `json:"domain"        dc:"Domain name"`
+	ARecord        string         `json:"a_record"      dc:"A record"`
+	Mailboxes      int            `json:"mailboxes"     dc:"Number of mailboxes created"`
+	MailboxQuota   int64          `json:"mailbox_quota" dc:"Default mailbox space size"`
+	Quota          int64          `json:"quota"         dc:"Domain quota"`
+	RateLimit      int            `json:"rate_limit"    dc:"Rate limit for sending emails per second"`
+	CreateTime     int64          `json:"create_time"   dc:"Creation time"`
+	Active         int            `json:"active"        dc:"Status: 1-enabled, 0-disabled"`
+	DNSRecords     DNSRecords     `json:"dns_records" dc:"DNS records"`
+	CertInfo       CertInfo       `json:"cert_info" dc:"Certificate information"`
+	Catchall       string         `json:"email"      dc:"Cache all DNS records, used for domain verification"`
+	Default        int            `json:"default"      dc:"Default sender domain, 1-yes, 0-no"`
+	Urls           []string       `json:"urls" dc:"Additional URLs associated with the domain"`
+	HasBrandInfo   int            `json:"hasbrandinfo"        dc:"Brand information : 1-exist, 0-not exist"`
 	MultiIPDomains *MultiIPDomain `json:"multi_ip_domains" dc:"Multiple IP domains"`
+	CurrentUsage   int64          `json:"current_usage" dc:"Domain Current usage"`
 }
 
 type AddDomainReq struct {
@@ -65,7 +65,7 @@ type AddDomainReq struct {
 	Catchall      string   `json:"email" v:"email" dc:"Catch all email address, used for domain verification"`
 	Urls          []string `json:"urls" dc:"Additional URLs associated with the domain"`
 	HasBrandInfo  int      `json:"hasbrandinfo"        dc:"Brand information : 1-exist, 0-not exist"`
-	OutboundIp   string   `json:"outbound_ip" v:"ipv4" dc:"Exclusive IP address for the domain, used for sending emails"`
+	OutboundIp    string   `json:"outbound_ip" v:"ipv4" dc:"Exclusive IP address for the domain, used for sending emails"`
 }
 
 type AddDomainRes struct {
@@ -85,7 +85,7 @@ type UpdateDomainReq struct {
 	Catchall      string   `json:"email" v:"email" dc:"Catch all email address, used for domain verification"`
 	Urls          []string `json:"urls" dc:"Additional URLs associated with the domain"`
 	HasBrandInfo  int      `json:"hasbrandinfo"        dc:"Brand information : 1-exist, 0-not exist"`
-	OutboundIp   string   `json:"outbound_ip" v:"ipv4" dc:"Exclusive IP address for the domain, used for sending emails"`
+	OutboundIp    string   `json:"outbound_ip" v:"ipv4" dc:"Exclusive IP address for the domain, used for sending emails"`
 }
 
 type UpdateDomainRes struct {

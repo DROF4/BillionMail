@@ -152,6 +152,33 @@ func Start(ctx context.Context) (err error) {
 		multi_ip_domain.ReapplyAllIptablesRules(ctx)
 	})
 
+	// Updated: Used space in the mailbox
+	gtimer.AddOnce(3*time.Second, func() {
+		mail_boxes.UpdateMailboxesUsedSpace()
+	})
+
+	gtimer.Add(60*time.Minute, func() {
+		mail_boxes.UpdateMailboxesUsedSpace()
+	})
+
+	// Check the email quota and the alert for exceeding the quota
+	gtimer.AddOnce(4*time.Second, func() {
+		mail_boxes.CheckMailboxesQuotaAlerts(ctx)
+	})
+
+	gtimer.Add(60*time.Minute, func() {
+		mail_boxes.CheckMailboxesQuotaAlerts(ctx)
+	})
+
+	// Initialize the quota plugin and update the quota usage status of the domain name and email
+	gtimer.AddOnce(3*time.Second, func() {
+		err := mail_boxes.InitQuotaPluginAndUpdateUsedSpace(ctx)
+		if err != nil {
+			g.Log().Warning(ctx, "Initialize the quota plugin and update the quota usage status of the domain name and email,  failed: ", err)
+			err = nil
+		}
+	})
+
 	g.Log().Debug(ctx, "All timers started successfully")
 	return nil
 }

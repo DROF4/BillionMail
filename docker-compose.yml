@@ -193,6 +193,7 @@ services:
         - ./logs/core:/opt/billionmail/core/logs
         - ./core-data:/opt/billionmail/core/data
         - /var/run/docker.sock:/var/run/docker.sock:ro
+        - ./vmail-data:/opt/billionmail/vmail-data
       environment:
         - TZ=${TZ}
         - FAIL2BAN_INIT=${FAIL2BAN_INIT:-y}

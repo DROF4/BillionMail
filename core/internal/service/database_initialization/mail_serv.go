@@ -20,6 +20,7 @@ func init() {
 				active SMALLINT NOT NULL DEFAULT 1,
 				urls TEXT[] NOT NULL DEFAULT '{}'::TEXT[],
 				hasbrandinfo SMALLINT NOT NULL DEFAULT 0,
+				current_usage BIGINT NOT NULL DEFAULT 0,	
 				PRIMARY KEY (domain)
 			)`,
 
@@ -37,6 +38,8 @@ func init() {
 				create_time int NOT NULL default 0,
 				update_time int NOT NULL default 0,
 				active SMALLINT NOT NULL DEFAULT 1,
+				used_quota BIGINT NOT NULL DEFAULT 0,	
+				quota_active SMALLINT NOT NULL DEFAULT 1,
 				PRIMARY KEY (username)
 			)`,
 
@@ -119,5 +122,12 @@ func init() {
 		// domain
 		_ = AddColumnIfNotExists("domain", "urls", "TEXT[]", "'{}'::TEXT[]", false)
 		_ = AddColumnIfNotExists("domain", "hasbrandinfo", "SMALLINT", "0", false)
+		_ = AddColumnIfNotExists("domain", "current_usage", "BIGINT", "0", true)
+
+
+		// mailbox used quota column
+		_ = AddColumnIfNotExists("mailbox", "used_quota", "BIGINT", "0", true)
+		_ = AddColumnIfNotExists("mailbox", "quota_active", "SMALLINT", "1", true)
+
 	})
 }

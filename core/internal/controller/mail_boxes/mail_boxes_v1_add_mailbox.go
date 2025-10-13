@@ -24,6 +24,7 @@ func (c *ControllerV1) AddMailbox(ctx context.Context, req *v1.AddMailboxReq) (r
 		LocalPart: req.LocalPart,
 		Domain:    req.Domain,
 		Active:    req.Active,
+		QuotaActive: req.QuotaActive,
 	}
 
 	if mailbox.FullName == "" {

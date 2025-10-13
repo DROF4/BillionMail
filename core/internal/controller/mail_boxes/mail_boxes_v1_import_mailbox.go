@@ -63,6 +63,8 @@ func (c *ControllerV1) ImportMailbox(ctx context.Context, req *v1.ImportMailboxR
 					m.IsAdmin = parseInt(row[i])
 				case "quota":
 					m.Quota = int64(parseInt(row[i]))
+				case "quota_active":
+					m.QuotaActive = parseInt(row[i])
 				case "local_part":
 					m.LocalPart = row[i]
 				case "domain":
@@ -128,6 +130,8 @@ func (c *ControllerV1) ImportMailbox(ctx context.Context, req *v1.ImportMailboxR
 		if mailboxes[i].Active == 0 {
 			mailboxes[i].Active = 1
 		}
+
+		mailboxes[i].QuotaActive = 1
 	}
 
 	var failed []string
