@@ -153,7 +153,7 @@ func Start(ctx context.Context) (err error) {
 	})
 
 	// Updated: Used space in the mailbox
-	gtimer.AddOnce(3*time.Second, func() {
+	gtimer.AddOnce(20*time.Second, func() {
 		mail_boxes.UpdateMailboxesUsedSpace()
 	})
 
@@ -162,7 +162,7 @@ func Start(ctx context.Context) (err error) {
 	})
 
 	// Check the email quota and the alert for exceeding the quota
-	gtimer.AddOnce(4*time.Second, func() {
+	gtimer.AddOnce(1*time.Minute, func() {
 		mail_boxes.CheckMailboxesQuotaAlerts(ctx)
 	})
 
@@ -171,7 +171,7 @@ func Start(ctx context.Context) (err error) {
 	})
 
 	// Initialize the quota plugin and update the quota usage status of the domain name and email
-	gtimer.AddOnce(3*time.Second, func() {
+	gtimer.AddOnce(1*time.Second, func() {
 		err := mail_boxes.InitQuotaPluginAndUpdateUsedSpace(ctx)
 		if err != nil {
 			g.Log().Warning(ctx, "Initialize the quota plugin and update the quota usage status of the domain name and email,  failed: ", err)
