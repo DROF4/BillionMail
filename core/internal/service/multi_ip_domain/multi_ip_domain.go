@@ -149,7 +149,8 @@ func (s *MultiIPDomainService) DeleteConfig(ctx context.Context, domain string) 
 		}
 
 		if len(config) == 0 {
-			return gerror.New("configuration does not exist")
+			//return gerror.New("configuration does not exist")
+			return nil
 		}
 
 		_, err = tx.Model("bm_multi_ip_domain").Where("domain", domain).Delete()
