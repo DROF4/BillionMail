@@ -14,7 +14,7 @@ services:
         - POSTGRES_PASSWORD=${DBPASS}
       restart: always
       ports:
-        - "${SQL_PORT:-127.0.0.1:25432}:5432"
+        - "${SQL_PORT:-127.0.0.1:25433}:5433"
       networks:
         billionmail-network:
           aliases:
@@ -29,7 +29,7 @@ services:
         - ./conf/redis/redis-conf.sh:/redis-conf.sh
       restart: always
       ports:
-        - "${REDIS_PORT:-127.0.0.1:26379}:6379"
+        - "${REDIS_PORT:-127.0.0.1:26380}:6379"
       environment:
         - TZ=${TZ}
         - REDISPASS=${REDISPASS}
